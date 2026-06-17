@@ -1,0 +1,15 @@
+services:
+    api:
+        build: .
+        ports:
+            - "8000:8000"
+        volumes:
+            # mount these so models/data persist on your Mac, not just inside the container
+            - ./data:/app/data
+            - ./models:/app/models
+            - ./benchmarks:/app/benchmarks
+            # kagglehub reads ~/.kaggle/kaggle.json for auth AND writes its own
+            # log folder there — must NOT be read-only or kagglehub crashes on startup
+            - ~/.kaggle:/root/.kaggle
+        environment:
+            - PYTHONUNBUFFERED=1
